@@ -86,4 +86,4 @@ jobs:
         if: github.event_name == 'push'
         run: |
           echo ${{ steps.issue-key-commit.outputs.issue }}
-          jira unassign ${{ steps.issue-key-commit.outputs.issue }}
+          jira labels add ${{ steps.issue-key-commit.outputs.issue }} DEPLOYED-DEV
