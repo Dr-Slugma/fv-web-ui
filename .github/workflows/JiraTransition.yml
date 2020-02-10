@@ -37,7 +37,7 @@ jobs:
       # Find issue key from the commit messages
       - name: Find issue key from commits
         if: github.event_name == 'push'
-        id: issue-key-commits
+        id: issue-key-commit
         uses: atlassian/gajira-find-issue-key@master
         with:
           from: commits
@@ -64,7 +64,7 @@ jobs:
 #        if: github.event_name == 'pull_request' && steps.status-checks.outputs.status == 'success' && steps.review-summary.outputs.pending == 0
 #        uses: atlassian/gajira-transition@master
 #        with:
-#          issue: ${{ steps.issue-key.outputs.issue }}
+#          issue: ${{ steps.issue-key-pr.outputs.issue }}
 #          transition: "DEV DONE"
 
       #
@@ -72,7 +72,7 @@ jobs:
         if: github.event_name == 'push'
         uses: atlassian/gajira-transition@master
         with:
-          issue: ${{ steps.issue-key.outputs.issue }}
+          issue: ${{ steps.issue-key-commit.outputs.issue }}
           transition: "QA TO DO"
 
       - name: Setup Jira CLI
@@ -85,5 +85,5 @@ jobs:
       - name: DEV DONE -> QA TO DO tasks
         if: github.event_name == 'push'
         run: |
-          echo ${{ steps.issue-key.outputs.issue }}
-          jira --issue=$${{ steps.issue-key.outputs.issue }} --unassign
+          echo ${{ steps.issue-key-commit.outputs.issue }}
+          jira --issue=$${{ steps.issue-key-commit.outputs.issue }} --unassign
