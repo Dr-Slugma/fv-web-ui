@@ -86,4 +86,5 @@ jobs:
         if: github.event_name == 'push'
         run: |
           echo ${{ steps.issue-key-commit.outputs.issue }}
+          printenv
           jira labels add ${{ steps.issue-key-commit.outputs.issue }} DEPLOYED-DEV
