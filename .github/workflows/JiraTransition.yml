@@ -86,4 +86,4 @@ jobs:
         if: github.event_name == 'push'
         run: |
           echo ${{ steps.issue-key-commit.outputs.issue }}
-          jira --issue=FW-937 --unassign
+          jira help
