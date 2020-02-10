@@ -26,6 +26,13 @@ jobs:
 #        env:
 #          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Setup Jira CLI
+        if: github.event_name == 'push'
+        uses: atlassian/gajira-cli@master
+        with:
+          version:
+            1.0.20
+
       # Login to Jira
       - name: Jira Login
         uses: atlassian/gajira-login@master
@@ -74,13 +81,6 @@ jobs:
 #        with:
 #          issue: ${{ steps.issue-key-commit.outputs.issue }}
 #          transition: "QA TO DO"
-
-      - name: Setup Jira CLI
-        if: github.event_name == 'push'
-        uses: atlassian/gajira-cli@master
-        with:
-          version:
-            1.0.20
 
       - name: DEV DONE -> QA TO DO tasks
         if: github.event_name == 'push'
