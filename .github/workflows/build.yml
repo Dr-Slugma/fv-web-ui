@@ -3,7 +3,7 @@ name: Build
 on:
   pull_request:
     branches:
-      - master
+      - disableCI
   # Every day at 9:30 UTC
   #   schedule:
   #     - cron: '30 9 * * *'

@@ -16,15 +16,15 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       # Wait for checks to finish
-      - name: Wait for status checks
-        if: github.event.name == 'pull_request'
-        id: status-checks
-        uses: WyriHaximus/github-action-wait-for-status@0.1.0
-        with:
-          ignoreActions: Jira Transition
-          checkInterval: 60
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+#      - name: Wait for status checks
+#        if: github.event.name == 'pull_request'
+#        id: status-checks
+#        uses: WyriHaximus/github-action-wait-for-status@0.1.0
+#        with:
+#          ignoreActions: Jira Transition
+#          checkInterval: 60
+#        env:
+#          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       # Login to Jira
       - name: Jira Login
@@ -42,29 +42,29 @@ jobs:
           from: commits
 
       # Get the current code review status for pull request
-      - name: Check review status
-        if: github.event.name == 'pull_request'
-        uses: buildsville/review-summary@v1
-        id: review-summary
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
+#      - name: Check review status
+#        if: github.event.name == 'pull_request'
+#        uses: buildsville/review-summary@v1
+#        id: review-summary
+#        with:
+#          token: ${{ secrets.GITHUB_TOKEN }}
 
       # If this event was triggered on a pull request, the checks have passed, and there
       # are no pending reviews then transition the issue to dev done
-      - name: Transistion issue to "DEV DONE"
-        if: github.event.name == 'pull_request' && steps.status-checks.outputs.status == 'success' && steps.review-summary.outputs.pending == 0
-        uses: atlassian/gajira-transition@master
-        with:
-          issue: ${{ steps.issue-key.outputs.issue }}
-          transition: "DEV DONE"
+#      - name: Transistion issue to "DEV DONE"
+#        if: github.event.name == 'pull_request' && steps.status-checks.outputs.status == 'success' && steps.review-summary.outputs.pending == 0
+#        uses: atlassian/gajira-transition@master
+#        with:
+#          issue: ${{ steps.issue-key.outputs.issue }}
+#          transition: "DEV DONE"
 
       #
-      - name: Transistion issue to "QA TO DO"
-        if: github.event.name == 'push'
-        uses: atlassian/gajira-transition@master
-        with:
-          issue: ${{ steps.issue-key.outputs.issue }}
-          transition: "QA TO DO"
+#      - name: Transistion issue to "QA TO DO"
+#        if: github.event.name == 'push'
+#        uses: atlassian/gajira-transition@master
+#        with:
+#          issue: ${{ steps.issue-key.outputs.issue }}
+#          transition: "QA TO DO"
 
       - name: Setup Jira CLI
         if: github.event.name == 'push'
