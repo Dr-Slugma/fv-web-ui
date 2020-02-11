@@ -74,25 +74,15 @@ jobs:
 #          issue: ${{ steps.issue-key-pr.outputs.issue }}
 #          transition: "DEV DONE"
 
-      #
-#      - name: Transistion issue to "QA TO DO"
-#        if: github.event_name == 'push'
-#        uses: atlassian/gajira-transition@master
-#        with:
-#          issue: ${{ steps.issue-key-commit.outputs.issue }}
-#          transition: "QA TO DO"
-
+      # When an issue is merged into master
       - name: DEV DONE -> QA TO DO tasks
         if: github.event_name == 'push'
         run: |
-          echo ${{ steps.issue-key-commit.outputs.issue }}
-          echo ''
-          cat ../../../.jira.d/config.yml
-          echo ''
-          echo ''
-          jira unassign --default ${{ steps.issue-key-commit.outputs.issue }}
-          jira labels add ${{ steps.issue-key-commit.outputs.issue }} DEPLOYED-DEV
-          jira comment --noedit --comment="This issue has been merged to master and will be deployed to dev.firstvoices.com automatically." ${{ steps.issue-key-commit.outputs.issue }}
+          echo ${{github.context.payload.push.commits.message}}
+#          jira transition --noedit "QA IN PROGRESS" ${{ steps.issue-key-commit.outputs.issue }}
+#          jira unassign --default ${{ steps.issue-key-commit.outputs.issue }}
+#          jira labels add ${{ steps.issue-key-commit.outputs.issue }} DEPLOYED-DEV
+#          jira comment --noedit --comment="This issue has been merged to master and will be deployed to dev.firstvoices.com automatically." ${{ steps.issue-key-commit.outputs.issue }}
         env:
           JIRA_BASE_URL: ${{ secrets.JIRA_BASE_URL }}
           JIRA_USER_EMAIL: ${{ secrets.JIRA_USER_EMAIL }}
