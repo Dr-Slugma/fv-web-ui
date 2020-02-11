@@ -87,7 +87,7 @@ jobs:
         run: |
           echo ${{ steps.issue-key-commit.outputs.issue }}
           echo ''
-          cat ./../../.jira.d/config.yml
+          cat ../../../.jira.d/config.yml
           echo ''
           echo ''
           jira unassign --default ${{ steps.issue-key-commit.outputs.issue }}
