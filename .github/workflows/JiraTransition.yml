@@ -11,10 +11,10 @@ on:
     types: [published]
 
 jobs:
-  Transition_DEV-IN-PROGRESS_to_DEV-DONE:
-    runs-on: ubuntu-latest
-    if: github.event_name == 'pull_request'
-    steps:
+#  Transition_DEV-IN-PROGRESS_to_DEV-DONE:
+#    runs-on: ubuntu-latest
+#    if: github.event_name == 'pull_request'
+#    steps:
 
 #      # Wait for checks to finish
 #      - name: Wait for status checks
