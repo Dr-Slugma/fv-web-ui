@@ -86,7 +86,10 @@ jobs:
         if: github.event_name == 'push'
         run: |
           echo ${{ steps.issue-key-commit.outputs.issue }}
-          cat ../../../.jira.d/config.yml
+          echo ''
+          cat ./../../.jira.d/config.yml
+          echo ''
+          echo ''
           jira unassign --default ${{ steps.issue-key-commit.outputs.issue }}
           jira labels add ${{ steps.issue-key-commit.outputs.issue }} DEPLOYED-DEV
           jira comment --noedit --comment="This issue has been merged to master and will be deployed to dev.firstvoices.com automatically." ${{ steps.issue-key-commit.outputs.issue }}
