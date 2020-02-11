@@ -75,12 +75,12 @@ jobs:
 #          transition: "DEV DONE"
 
       #
-      - name: Transistion issue to "QA TO DO"
-        if: github.event_name == 'push'
-        uses: atlassian/gajira-transition@master
-        with:
-          issue: ${{ steps.issue-key-commit.outputs.issue }}
-          transition: "QA TO DO"
+#      - name: Transistion issue to "QA TO DO"
+#        if: github.event_name == 'push'
+#        uses: atlassian/gajira-transition@master
+#        with:
+#          issue: ${{ steps.issue-key-commit.outputs.issue }}
+#          transition: "QA TO DO"
 
       - name: DEV DONE -> QA TO DO tasks
         if: github.event_name == 'push'
