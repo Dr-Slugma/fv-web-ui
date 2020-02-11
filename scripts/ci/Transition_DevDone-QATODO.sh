@@ -5,4 +5,4 @@
 jira --help
 echo ""
 echo ""
-echo "Arg 0: $0"
+echo "Arg 0: $1"
