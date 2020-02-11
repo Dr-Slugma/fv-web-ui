@@ -2,5 +2,7 @@
 
 # This script will perform the actions needed to transition the appropriate issues from
 # DEV DONE to QA TO DO
-
-echo steps.commit-message.outputs.value
+jira --help
+echo ""
+echo ""
+echo "Arg 0: $0"
