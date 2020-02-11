@@ -103,7 +103,7 @@ jobs:
       - name: DEV DONE -> QA TO DO tasks
         if: github.event_name == 'push'
         run: |
-          ./scripts/Transition_DevDone-QATODO.sh
+          ./scripts/ci/Transition_DevDone-QATODO.sh
 #          echo "value: ${{ steps.commit-message.outputs.value }}"
         #          jira transition --noedit "QA IN PROGRESS" ${{ steps.issue-key-commit.outputs.issue }}
         #          jira unassign --default ${{ steps.issue-key-commit.outputs.issue }}
