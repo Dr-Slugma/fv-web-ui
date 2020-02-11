@@ -74,11 +74,16 @@ jobs:
 #          issue: ${{ steps.issue-key-pr.outputs.issue }}
 #          transition: "DEV DONE"
 
+      - name: Dovyski/payload-info-action@master
+        id: commit-message
+        with:
+          filter_push: '.commits[].commit.message'
+
       # When an issue is merged into master
       - name: DEV DONE -> QA TO DO tasks
         if: github.event_name == 'push'
         run: |
-          echo github.context.payload.push.commits[].message
+          echo ${{ steps.commit-message.outputs }}
 #          jira transition --noedit "QA IN PROGRESS" ${{ steps.issue-key-commit.outputs.issue }}
 #          jira unassign --default ${{ steps.issue-key-commit.outputs.issue }}
 #          jira labels add ${{ steps.issue-key-commit.outputs.issue }} DEPLOYED-DEV
