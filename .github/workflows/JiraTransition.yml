@@ -13,8 +13,8 @@ on:
 jobs:
 
   Transition DEV IN PROGRESS - DEV DONE:
-    if: github.event_name == 'pull_request'
     runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request'
     steps:
 
       - name: test
@@ -67,8 +67,8 @@ jobs:
 
 
   Transition DEV DONE - QA TO DO:
-    if: github.event_name == 'push'
     runs-on: ubuntu-latest
+    if: github.event_name == 'push'
     steps:
 
       - name: test
