@@ -73,6 +73,7 @@ jobs:
 #        with:
 #          issue: ${{ steps.issue-key-pr.outputs.issue }}
 #          transition: "DEV DONE"
+      - uses: actions/checkout@v1
       - name: Filter payload
         uses: Dovyski/payload-info-action@master
         id: commit-message
