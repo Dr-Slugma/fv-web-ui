@@ -78,7 +78,7 @@ jobs:
         uses: Dovyski/payload-info-action@master
         id: commit-message
         with:
-          filter_push: '.commits[].author'
+          filter_push: '.commits[].message'
           filter_pull_request: '.pull_request.commits'
 
       # When an issue is merged into master
@@ -86,8 +86,6 @@ jobs:
         if: github.event_name == 'push'
         run: |
           echo "value: ${{ steps.commit-message.outputs.value }}"
-          echo "branch: ${{ steps.commit-message.outputs.branch }}"
-          echo "pull_request: ${{ steps.commit-message.outputs.pull_request }}"
 #          jira transition --noedit "QA IN PROGRESS" ${{ steps.issue-key-commit.outputs.issue }}
 #          jira unassign --default ${{ steps.issue-key-commit.outputs.issue }}
 #          jira labels add ${{ steps.issue-key-commit.outputs.issue }} DEPLOYED-DEV
