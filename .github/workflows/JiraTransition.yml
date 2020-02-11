@@ -78,7 +78,7 @@ jobs:
         uses: Dovyski/payload-info-action@master
         id: commit-message
         with:
-          filter_push: '.commits[].commit.message'
+          filter_push: 'push.commits[].commit.message'
 
       # When an issue is merged into master
       - name: DEV DONE -> QA TO DO tasks
