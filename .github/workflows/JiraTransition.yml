@@ -79,7 +79,6 @@ jobs:
         id: commit-message
         with:
           filter_push: '.commits[].message'
-          filter_pull_request: '.pull_request.commits'
 
       # When an issue is merged into master
       - name: DEV DONE -> QA TO DO tasks
