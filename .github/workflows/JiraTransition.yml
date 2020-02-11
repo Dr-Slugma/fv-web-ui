@@ -16,10 +16,6 @@ jobs:
     if: github.event_name == 'pull_request'
     steps:
 
-      - name: test
-        run: |
-          echo "triggered on pr"
-
 #      # Wait for checks to finish
 #      - name: Wait for status checks
 #        if: github.event_name == 'pull_request'
@@ -70,50 +66,50 @@ jobs:
     if: github.event_name == 'push'
     steps:
 
-      - name: test
-        run: |
-          echo "triggered on push"
+      - name: Checkout repo
+        uses: actions/checkout@v1
 
-#      - name: Setup Jira CLI
-#        if: github.event_name == 'push'
-#        uses: atlassian/gajira-cli@master
-#        with:
-#          version:
-#            1.0.20
-#
-#      # Login to Jira
-#      - name: Jira Login
-#        uses: atlassian/gajira-login@master
-#        env:
-#          JIRA_BASE_URL: ${{ secrets.JIRA_BASE_URL }}
-#          JIRA_USER_EMAIL: ${{ secrets.JIRA_USER_EMAIL }}
-#          JIRA_API_TOKEN: ${{ secrets.JIRA_API_TOKEN }}
-#
-#      # Find issue key from the commit messages
-#      - name: Find issue key from commits
-#        if: github.event_name == 'push'
-#        id: issue-key-commit
-#        uses: atlassian/gajira-find-issue-key@master
-#        with:
-#          from: commits
-#
-#      #
-#      - name: Filter payload
-#        uses: Dovyski/payload-info-action@master
-#        id: commit-message
-#        with:
-#          filter_push: '.commits[].message'
-#
-#      # When an issue is merged into master
-#      - name: DEV DONE -> QA TO DO tasks
-#        if: github.event_name == 'push'
-#        run: |
+      - name: Setup Jira CLI
+        if: github.event_name == 'push'
+        uses: atlassian/gajira-cli@master
+        with:
+          version:
+            1.0.20
+
+      # Login to Jira
+      - name: Jira Login
+        uses: atlassian/gajira-login@master
+        env:
+          JIRA_BASE_URL: ${{ secrets.JIRA_BASE_URL }}
+          JIRA_USER_EMAIL: ${{ secrets.JIRA_USER_EMAIL }}
+          JIRA_API_TOKEN: ${{ secrets.JIRA_API_TOKEN }}
+
+      # Find issue key from the commit messages
+      - name: Find issue key from commits
+        if: github.event_name == 'push'
+        id: issue-key-commit
+        uses: atlassian/gajira-find-issue-key@master
+        with:
+          from: commits
+
+      #
+      - name: Filter payload
+        uses: Dovyski/payload-info-action@master
+        id: commit-message
+        with:
+          filter_push: '.commits[].message'
+
+      # When an issue is merged into master
+      - name: DEV DONE -> QA TO DO tasks
+        if: github.event_name == 'push'
+        run: |
+          ./scripts/Transition_DevDone-QATODO.sh
 #          echo "value: ${{ steps.commit-message.outputs.value }}"
-#        #          jira transition --noedit "QA IN PROGRESS" ${{ steps.issue-key-commit.outputs.issue }}
-#        #          jira unassign --default ${{ steps.issue-key-commit.outputs.issue }}
-#        #          jira labels add ${{ steps.issue-key-commit.outputs.issue }} DEPLOYED-DEV
-#        #          jira comment --noedit --comment="This issue has been merged to master and will be deployed to dev.firstvoices.com automatically." ${{ steps.issue-key-commit.outputs.issue }}
-#        env:
-#          JIRA_BASE_URL: ${{ secrets.JIRA_BASE_URL }}
-#          JIRA_USER_EMAIL: ${{ secrets.JIRA_USER_EMAIL }}
-#          JIRA_API_TOKEN: ${{ secrets.JIRA_API_TOKEN }}
+        #          jira transition --noedit "QA IN PROGRESS" ${{ steps.issue-key-commit.outputs.issue }}
+        #          jira unassign --default ${{ steps.issue-key-commit.outputs.issue }}
+        #          jira labels add ${{ steps.issue-key-commit.outputs.issue }} DEPLOYED-DEV
+        #          jira comment --noedit --comment="This issue has been merged to master and will be deployed to dev.firstvoices.com automatically." ${{ steps.issue-key-commit.outputs.issue }}
+        env:
+          JIRA_BASE_URL: ${{ secrets.JIRA_BASE_URL }}
+          JIRA_USER_EMAIL: ${{ secrets.JIRA_USER_EMAIL }}
+          JIRA_API_TOKEN: ${{ secrets.JIRA_API_TOKEN }}
