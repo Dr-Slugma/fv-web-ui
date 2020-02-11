@@ -11,8 +11,7 @@ on:
     types: [published]
 
 jobs:
-
-  Transition DEV IN PROGRESS - DEV DONE:
+  Transition_DEV-IN-PROGRESS_to_DEV-DONE:
     runs-on: ubuntu-latest
     if: github.event_name == 'pull_request'
     steps:
@@ -66,7 +65,7 @@ jobs:
 #          transition: "DEV DONE"
 
 
-  Transition DEV DONE - QA TO DO:
+  Transition_DEV-DONE_to_QA-TO-DO:
     runs-on: ubuntu-latest
     if: github.event_name == 'push'
     steps:
