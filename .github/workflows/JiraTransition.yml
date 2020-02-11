@@ -84,7 +84,7 @@ jobs:
       - name: DEV DONE -> QA TO DO tasks
         if: github.event_name == 'push'
         run: |
-          echo ${{ steps.commit-message.outputs }}
+          echo ${{ steps.commit-message.outputs.push }}
 #          jira transition --noedit "QA IN PROGRESS" ${{ steps.issue-key-commit.outputs.issue }}
 #          jira unassign --default ${{ steps.issue-key-commit.outputs.issue }}
 #          jira labels add ${{ steps.issue-key-commit.outputs.issue }} DEPLOYED-DEV
