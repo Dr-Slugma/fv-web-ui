@@ -12,10 +12,16 @@ on:
 
 jobs:
 
-  Transition:
+  Transition DEV IN PROGRESS -> DEV DONE:
+    if: github.event_name == 'pull_request'
     runs-on: ubuntu-latest
     steps:
-      # Wait for checks to finish
+
+      - name: test
+        run: |
+          echo "triggered on pr"
+
+#      # Wait for checks to finish
 #      - name: Wait for status checks
 #        if: github.event_name == 'pull_request'
 #        id: status-checks
@@ -25,48 +31,33 @@ jobs:
 #          checkInterval: 60
 #        env:
 #          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Setup Jira CLI
-        if: github.event_name == 'push'
-        uses: atlassian/gajira-cli@master
-        with:
-          version:
-            1.0.20
-
-      # Login to Jira
-      - name: Jira Login
-        uses: atlassian/gajira-login@master
-        env:
-          JIRA_BASE_URL: ${{ secrets.JIRA_BASE_URL }}
-          JIRA_USER_EMAIL: ${{ secrets.JIRA_USER_EMAIL }}
-          JIRA_API_TOKEN: ${{ secrets.JIRA_API_TOKEN }}
-
-      # Find issue key from the commit messages
-      - name: Find issue key from commits
-        if: github.event_name == 'push'
-        id: issue-key-commit
-        uses: atlassian/gajira-find-issue-key@master
-        with:
-          from: commits
-
-      # Find issue key from the pull request title
-      - name: Find issue key from pull request title
-        if: github.event_name == 'pull_request'
-        id: issue-key-pr
-        uses: atlassian/gajira-find-issue-key@master
-        with:
-          description: github.context.payload.pull_request.title
-
-      # Get the current code review status for pull request
+#
+#      # Login to Jira
+#      - name: Jira Login
+#        uses: atlassian/gajira-login@master
+#        env:
+#          JIRA_BASE_URL: ${{ secrets.JIRA_BASE_URL }}
+#          JIRA_USER_EMAIL: ${{ secrets.JIRA_USER_EMAIL }}
+#          JIRA_API_TOKEN: ${{ secrets.JIRA_API_TOKEN }}
+#
+#      # Find issue key from the pull request title
+#      - name: Find issue key from pull request title
+#        if: github.event_name == 'pull_request'
+#        id: issue-key-pr
+#        uses: atlassian/gajira-find-issue-key@master
+#        with:
+#          description: github.context.payload.pull_request.title
+#
+#      # Get the current code review status for pull request
 #      - name: Check review status
 #        if: github.event_name == 'pull_request'
 #        uses: buildsville/review-summary@v1
 #        id: review-summary
 #        with:
 #          token: ${{ secrets.GITHUB_TOKEN }}
-
-      # If this event was triggered on a pull request, the checks have passed, and there
-      # are no pending reviews then transition the issue to dev done
+#
+#      # If this event was triggered on a pull request, the checks have passed, and there
+#      # are no pending reviews then transition the issue to dev done
 #      - name: Transistion issue to "DEV DONE"
 #        if: github.event_name == 'pull_request' && steps.status-checks.outputs.status == 'success' && steps.review-summary.outputs.pending == 0
 #        uses: atlassian/gajira-transition@master
@@ -74,23 +65,56 @@ jobs:
 #          issue: ${{ steps.issue-key-pr.outputs.issue }}
 #          transition: "DEV DONE"
 
-      #
-      - name: Filter payload
-        uses: Dovyski/payload-info-action@master
-        id: commit-message
-        with:
-          filter_push: '.commits[].message'
 
-      # When an issue is merged into master
-      - name: DEV DONE -> QA TO DO tasks
-        if: github.event_name == 'push'
+  Transition DEV DONE -> QA TO DO:
+    if: github.event_name == 'push'
+    runs-on: ubuntu-latest
+    steps:
+
+      - name: test
         run: |
-          echo "value: ${{ steps.commit-message.outputs.value }}"
-#          jira transition --noedit "QA IN PROGRESS" ${{ steps.issue-key-commit.outputs.issue }}
-#          jira unassign --default ${{ steps.issue-key-commit.outputs.issue }}
-#          jira labels add ${{ steps.issue-key-commit.outputs.issue }} DEPLOYED-DEV
-#          jira comment --noedit --comment="This issue has been merged to master and will be deployed to dev.firstvoices.com automatically." ${{ steps.issue-key-commit.outputs.issue }}
-        env:
-          JIRA_BASE_URL: ${{ secrets.JIRA_BASE_URL }}
-          JIRA_USER_EMAIL: ${{ secrets.JIRA_USER_EMAIL }}
-          JIRA_API_TOKEN: ${{ secrets.JIRA_API_TOKEN }}
+          echo "triggered on push"
+
+#      - name: Setup Jira CLI
+#        if: github.event_name == 'push'
+#        uses: atlassian/gajira-cli@master
+#        with:
+#          version:
+#            1.0.20
+#
+#      # Login to Jira
+#      - name: Jira Login
+#        uses: atlassian/gajira-login@master
+#        env:
+#          JIRA_BASE_URL: ${{ secrets.JIRA_BASE_URL }}
+#          JIRA_USER_EMAIL: ${{ secrets.JIRA_USER_EMAIL }}
+#          JIRA_API_TOKEN: ${{ secrets.JIRA_API_TOKEN }}
+#
+#      # Find issue key from the commit messages
+#      - name: Find issue key from commits
+#        if: github.event_name == 'push'
+#        id: issue-key-commit
+#        uses: atlassian/gajira-find-issue-key@master
+#        with:
+#          from: commits
+#
+#      #
+#      - name: Filter payload
+#        uses: Dovyski/payload-info-action@master
+#        id: commit-message
+#        with:
+#          filter_push: '.commits[].message'
+#
+#      # When an issue is merged into master
+#      - name: DEV DONE -> QA TO DO tasks
+#        if: github.event_name == 'push'
+#        run: |
+#          echo "value: ${{ steps.commit-message.outputs.value }}"
+#        #          jira transition --noedit "QA IN PROGRESS" ${{ steps.issue-key-commit.outputs.issue }}
+#        #          jira unassign --default ${{ steps.issue-key-commit.outputs.issue }}
+#        #          jira labels add ${{ steps.issue-key-commit.outputs.issue }} DEPLOYED-DEV
+#        #          jira comment --noedit --comment="This issue has been merged to master and will be deployed to dev.firstvoices.com automatically." ${{ steps.issue-key-commit.outputs.issue }}
+#        env:
+#          JIRA_BASE_URL: ${{ secrets.JIRA_BASE_URL }}
+#          JIRA_USER_EMAIL: ${{ secrets.JIRA_USER_EMAIL }}
+#          JIRA_API_TOKEN: ${{ secrets.JIRA_API_TOKEN }}
