@@ -74,7 +74,8 @@ jobs:
 #          issue: ${{ steps.issue-key-pr.outputs.issue }}
 #          transition: "DEV DONE"
 
-      - name: Dovyski/payload-info-action@master
+      - name:
+        uses: Dovyski/payload-info-action@master
         id: commit-message
         with:
           filter_push: '.commits[].commit.message'
