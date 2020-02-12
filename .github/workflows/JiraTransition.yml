@@ -100,7 +100,7 @@ jobs:
 
       # Find issue key from the commit messages
       - name: Find issue key from commits
-        if: steps.issue-key-check.outputs.value == "true"
+        if: steps.issue-key-check.outputs.value == true
         id: issue-key-commit
         uses: atlassian/gajira-find-issue-key@master
         with:
