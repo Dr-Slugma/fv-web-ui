@@ -110,6 +110,7 @@ jobs:
     - name: Check that issue key exists
       id: issue-key-check
       run: |
+        echo "An error here means that the issue key could not be found on Jira."
         CHECK=$(./scripts/ci/checkIssueKey.sh ${{ steps.commit-message.outputs.value }})
         echo "::set-output name=value::$CHECK"
       env:
