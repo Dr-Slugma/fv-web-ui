@@ -96,9 +96,9 @@ jobs:
       - name: Check that issue key exists
         id: issue-key-check
         run: |
-          MSG=$(./scripts/ci/checkIssueKey.sh ${{ steps.commit-message.outputs.value }})
-          echo $MSG
-          echo "::set-output name=value::$MSG"
+          CHECK=$(./scripts/ci/checkIssueKey.sh ${{ steps.commit-message.outputs.value }})
+          echo $CHECK
+          echo "::set-output name=value::$CHECK"
 
       # Find issue key from the commit messages
       - name: Find issue key from commits
@@ -110,7 +110,7 @@ jobs:
 
       # When an issue is merged into master
 #      - name: DEV DONE -> QA TO DO tasks
-#        if: steps.issue-key-check.outputs.value == "true"
+#        if: steps.issue-key-check.outputs.value == 'true'
 #        run: |
 #          ./scripts/ci/Transition-DevDone-QAToDo.sh ${{ steps.commit-message.outputs.value }}
 #        env:
