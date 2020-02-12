@@ -11,30 +11,37 @@ on:
     types: [published]
 
 jobs:
-  #  Transition_DEV-IN-PROGRESS_to_DEV-DONE:
-  #    runs-on: ubuntu-latest
-  #    if: github.event_name == 'pull_request'
-  #    steps:
+  Transition_DEV-IN-PROGRESS_to_DEV-DONE:
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request'
+    steps:
 
-  #      # Wait for checks to finish
-  #      - name: Wait for status checks
-  #        if: github.event_name == 'pull_request'
-  #        id: status-checks
-  #        uses: WyriHaximus/github-action-wait-for-status@0.1.0
-  #        with:
-  #          ignoreActions: Jira Transition
-  #          checkInterval: 60
-  #        env:
-  #          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-  #
-  #      # Login to Jira
-  #      - name: Jira Login
-  #        uses: atlassian/gajira-login@master
-  #        env:
-  #          JIRA_BASE_URL: ${{ secrets.JIRA_BASE_URL }}
-  #          JIRA_USER_EMAIL: ${{ secrets.JIRA_USER_EMAIL }}
-  #          JIRA_API_TOKEN: ${{ secrets.JIRA_API_TOKEN }}
-  #
+    - name: Check user access
+      uses: lannonbr/repo-permission-check-action@2.0.0
+      with:
+        permission: write
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+    #      # Wait for checks to finish
+    #      - name: Wait for status checks
+    #        if: github.event_name == 'pull_request'
+    #        id: status-checks
+    #        uses: WyriHaximus/github-action-wait-for-status@0.1.0
+    #        with:
+    #          ignoreActions: Jira Transition
+    #          checkInterval: 60
+    #        env:
+    #          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+    # Login to Jira
+    - name: Jira Login
+      uses: atlassian/gajira-login@master
+      env:
+        JIRA_BASE_URL: ${{ secrets.JIRA_BASE_URL }}
+        JIRA_USER_EMAIL: ${{ secrets.JIRA_USER_EMAIL }}
+        JIRA_API_TOKEN: ${{ secrets.JIRA_API_TOKEN }}
+
   #      # Find issue key from the pull request title
   #      - name: Find issue key from pull request title
   #        if: github.event_name == 'pull_request'
@@ -65,6 +72,13 @@ jobs:
     runs-on: ubuntu-latest
     if: github.event_name == 'push'
     steps:
+
+    - name: Check user access
+      uses: lannonbr/repo-permission-check-action@2.0.0
+      with:
+        permission: write
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     - name: Checkout repo
       uses: actions/checkout@v1
