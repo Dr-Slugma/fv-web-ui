@@ -106,14 +106,6 @@ jobs:
         with:
           from: commits
 
-      #
-      - name: Filter payload
-        if: steps.issue-key-check.outputs.value == "true"
-        uses: Dovyski/payload-info-action@master
-        id: commit-message
-        with:
-          filter_push: '.commits[].message'
-
       # When an issue is merged into master
 #      - name: DEV DONE -> QA TO DO tasks
 #        if: steps.issue-key-check.outputs.value == "true"
