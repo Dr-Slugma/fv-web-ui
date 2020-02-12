@@ -103,12 +103,7 @@ jobs:
       - name: DEV DONE -> QA TO DO tasks
         if: github.event_name == 'push'
         run: |
-          ./scripts/ci/Transition_DevDone-QATODO.sh ${{ steps.commit-message.outputs.value }}
-#          echo "value: ${{ steps.commit-message.outputs.value }}"
-        #          jira transition --noedit "QA IN PROGRESS" ${{ steps.issue-key-commit.outputs.issue }}
-        #          jira unassign --default ${{ steps.issue-key-commit.outputs.issue }}
-        #          jira labels add ${{ steps.issue-key-commit.outputs.issue }} DEPLOYED-DEV
-        #          jira comment --noedit --comment="This issue has been merged to master and will be deployed to dev.firstvoices.com automatically." ${{ steps.issue-key-commit.outputs.issue }}
+          ./scripts/ci/Transition-DevDone-QAToDo.sh ${{ steps.commit-message.outputs.value }}
         env:
           JIRA_BASE_URL: ${{ secrets.JIRA_BASE_URL }}
           JIRA_USER_EMAIL: ${{ secrets.JIRA_USER_EMAIL }}
