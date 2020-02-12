@@ -96,7 +96,7 @@ jobs:
       - name: Check that issue key exists
         id: issue-key-check
         run: |
-          echo "##[set-output name=value;]$(./scripts/ci/checkIssueKey.sh ${{ steps.commit-message.outputs.value }})"
+          echo "::set-output name=value::$(./scripts/ci/checkIssueKey.sh ${{ steps.commit-message.outputs.value }})"
 
       # Find issue key from the commit messages
       - name: Find issue key from commits
