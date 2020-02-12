@@ -52,6 +52,7 @@ elif [ $NUMISSUES == 0 ]; then
     echo "No issue key matching the pattern FW-XXXXX could be found in the commit messages."
 elif [ $MISSINGISSUECOUNT > 0 ]; then
     echo $MISSINGISSUECOUNT " of the matching issue keys in the commit messages could not be found on Jira."
+    return 1
 else
     echo "false"
 fi

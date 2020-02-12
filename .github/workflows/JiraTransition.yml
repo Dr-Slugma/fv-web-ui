@@ -111,7 +111,6 @@ jobs:
       id: issue-key-check
       run: |
         CHECK=$(./scripts/ci/checkIssueKey.sh ${{ steps.commit-message.outputs.value }})
-        echo $CHECK
         echo "::set-output name=value::$CHECK"
       env:
         JIRA_BASE_URL: ${{ secrets.JIRA_BASE_URL }}
