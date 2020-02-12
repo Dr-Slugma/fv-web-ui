@@ -9,10 +9,23 @@ COMMITMESSAGES=$1
 # Replace commas with spaces for pattern matching
 COMMITMESSAGES=${COMMITMESSAGES//,/ }
 
-# Iterate through each issue found in the commit messages and perform Jira actions on each
+# Remove all items matching the patter from the list and append them to FILTEREDLIST
+FILTEREDLIST=""
 for f in $COMMITMESSAGES
 do
     if [[ $f =~ FW-[0-9]{1,5} ]]; then
+        FILTEREDLIST="$FILTEREDLIST ${BASH_REMATCH}"
+    fi
+done
+
+# Filter out any duplicates
+echo $FILTEREDLIST | tr ' ' '\n' | sort | uniq | xargs
+
+# Iterate through each issue found in the commit messages and perform Jira actions on each
+for f in $FILTEREDLIST
+do
+    if [[ $f =~ FW-[0-9]{1,5} ]]; then
+        echo ${BASH_REMATCH}
         echo "Transitioning - DEV DONE -> QA TO DO: " ${BASH_REMATCH}
         jira transition --noedit "QA TO DO" ${BASH_REMATCH}
         echo ""
