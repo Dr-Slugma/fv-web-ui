@@ -1,3 +1,3 @@
 #!/usr/bin/env bash
 
-echo "false"
+echo "true"
