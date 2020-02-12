@@ -19,7 +19,7 @@ jobs:
     - name: Check user access
       uses: lannonbr/repo-permission-check-action@2.0.0
       with:
-        permission: write
+        permission: "write"
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
