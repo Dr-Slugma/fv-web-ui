@@ -96,15 +96,9 @@ jobs:
       - name: Check that issue key exists
         id: issue-key-check
         run: |
-          echo ${{ steps.commit-message.outputs.value }}
-          echo ""
           CHECK=$(./scripts/ci/checkIssueKey.sh ${{ steps.commit-message.outputs.value }})
-          echo ""
           echo $CHECK
-          echo ""
           echo "::set-output name=value::$CHECK"
-          echo ""
-          echo "done"
         env:
           JIRA_BASE_URL: ${{ secrets.JIRA_BASE_URL }}
           JIRA_USER_EMAIL: ${{ secrets.JIRA_USER_EMAIL }}
@@ -119,11 +113,11 @@ jobs:
           from: commits
 
       # When an issue is merged into master
-#      - name: DEV DONE -> QA TO DO tasks
-#        if: steps.issue-key-check.outputs.value == 'true'
-#        run: |
-#          ./scripts/ci/Transition-DevDone-QAToDo.sh ${{ steps.commit-message.outputs.value }}
-#        env:
-#          JIRA_BASE_URL: ${{ secrets.JIRA_BASE_URL }}
-#          JIRA_USER_EMAIL: ${{ secrets.JIRA_USER_EMAIL }}
-#          JIRA_API_TOKEN: ${{ secrets.JIRA_API_TOKEN }}
+      - name: DEV DONE -> QA TO DO tasks
+        if: steps.issue-key-check.outputs.value == 'true'
+        run: |
+          ./scripts/ci/Transition-DevDone-QAToDo.sh ${{ steps.commit-message.outputs.value }}
+        env:
+          JIRA_BASE_URL: ${{ secrets.JIRA_BASE_URL }}
+          JIRA_USER_EMAIL: ${{ secrets.JIRA_USER_EMAIL }}
+          JIRA_API_TOKEN: ${{ secrets.JIRA_API_TOKEN }}
