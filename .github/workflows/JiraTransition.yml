@@ -105,6 +105,10 @@ jobs:
           echo "::set-output name=value::$CHECK"
           echo ""
           echo "done"
+        env:
+          JIRA_BASE_URL: ${{ secrets.JIRA_BASE_URL }}
+          JIRA_USER_EMAIL: ${{ secrets.JIRA_USER_EMAIL }}
+          JIRA_API_TOKEN: ${{ secrets.JIRA_API_TOKEN }}
 
       # Find issue key from the commit messages
       - name: Find issue key from commits
